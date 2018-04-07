@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nbs.mapper.UserInfoMapper">
+	<resultMap id="userInfoResultMap" type="com.nbs.domain.UserInfo">
+  		<result property="id" column="ID"/>
+  		<result property="pin" column="PIN"/>
+  		<result property="custName" column="CUST_NAME"/>
+  		<result property="mobile" column="MOBILE"/>
+  		<result property="email" column="EMAIL"/>
+  		<result property="salt" column="SALT"/>
+  		<result property="pwd" column="PWD"/>
+  		<result property="status" column="STATUS"/>
+  		<result property="remark" column="REMARK"/>
+  		<result property="createdTime" column="CREATED_TIME"/>
+  		<result property="modifiedTime" column="MODIFIED_TIME"/>
+  		<result property="lastUpdateNo" column="LAST_UPDATE_NO"/>
+  		<result property="lastUpdateNoUserId" column="LAST_UPDATE_NO_USER_ID"/>
+	</resultMap>
+
+	<sql id="commonSelect">
+		ID, PIN, CUST_NAME, MOBILE, EMAIL, SALT, PWD, STATUS, REMARK, CREATED_TIME, MODIFIED_TIME, LAST_UPDATE_NO, LAST_UPDATE_NO_USER_ID
+	</sql>
+	
+	<sql id="whereCondition">
+		WHERE DELETED = 0 
+	 			<if test="id != null"> AND ID = #{id}</if> 
+	 			<if test="pin != null"> AND PIN = #{pin}</if> 
+	 			<if test="custName != null"> AND CUST_NAME = #{custName}</if> 
+	 			<if test="mobile != null"> AND MOBILE = #{mobile}</if> 
+	 			<if test="email != null"> AND EMAIL = #{email}</if> 
+	 			<if test="salt != null"> AND SALT = #{salt}</if> 
+	 			<if test="pwd != null"> AND PWD = #{pwd}</if> 
+	 			<if test="status != null"> AND STATUS = #{status}</if> 
+	 			<if test="remark != null"> AND REMARK = #{remark}</if> 
+	 			<if test="createdTimeStart != null"> AND CREATED_TIME <![CDATA[>=]]> createdTimeStart </if> 
+	 			<if test="createdTimeEnd != null"> AND CREATED_TIME <![CDATA[<=]]> createdTimeEnd </if>
+	 			<if test="modifiedTimeStart != null"> AND MODIFIED_TIME <![CDATA[>=]]> modifiedTimeStart </if> 
+	 			<if test="modifiedTimeEnd != null"> AND MODIFIED_TIME <![CDATA[<=]]> modifiedTimeEnd </if>
+				<if test="lastUpdateNo != null"> AND LAST_UPDATE_NO = #{lastUpdateNo}</if> 
+	 			<if test="lastUpdateNoStart != null"> AND LAST_UPDATE_NO <![CDATA[>=]]> lastUpdateNoStart </if> 
+	 			<if test="lastUpdateNoEnd != null"> AND LAST_UPDATE_NO <![CDATA[<=]]> lastUpdateNoEnd </if>
+	 			<if test="lastUpdateNoUserId != null"> AND LAST_UPDATE_NO_USER_ID = #{lastUpdateNoUserId}</if> 
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+	 	INSERT  INTO  USER_INFO 
+	 	<trim prefix="(" suffixOverrides="," suffix=")">
+				<if test="id != null">ID,</if> 
+				<if test="pin != null">PIN,</if> 
+				<if test="custName != null">CUST_NAME,</if> 
+				<if test="mobile != null">MOBILE,</if> 
+				<if test="email != null">EMAIL,</if> 
+				<if test="salt != null">SALT,</if> 
+				<if test="pwd != null">PWD,</if> 
+				<if test="status != null">STATUS,</if> 
+				<if test="remark != null">REMARK,</if> 
+				<if test="createdTime != null">CREATED_TIME,</if> 
+				<if test="modifiedTime != null">MODIFIED_TIME,</if> 
+				<if test="lastUpdateNo != null">LAST_UPDATE_NO,</if> 
+				<if test="lastUpdateNoUserId != null">LAST_UPDATE_NO_USER_ID,</if> 
+	 	</trim>
+		VALUES
+		<trim prefix="(" suffixOverrides="," suffix=")">
+			<if test="id != null">#{id},</if> 
+			<if test="pin != null">#{pin},</if> 
+			<if test="custName != null">#{custName},</if> 
+			<if test="mobile != null">#{mobile},</if> 
+			<if test="email != null">#{email},</if> 
+			<if test="salt != null">#{salt},</if> 
+			<if test="pwd != null">#{pwd},</if> 
+			<if test="status != null">#{status},</if> 
+			<if test="remark != null">#{remark},</if> 
+			<if test="createdTime != null">#{createdTime},</if> 
+			<if test="modifiedTime != null">#{modifiedTime},</if> 
+			<if test="lastUpdateNo != null">#{lastUpdateNo},</if> 
+			<if test="lastUpdateNoUserId != null">#{lastUpdateNoUserId},</if> 
+		</trim>
+	</insert>
+	
+	<update id="updateByPriKey">
+		UPDATE   USER_INFO 
+		<set>
+				<if test="id != null">ID=#{id},</if>
+				<if test="pin != null">PIN=#{pin},</if>
+				<if test="custName != null">CUST_NAME=#{custName},</if>
+				<if test="mobile != null">MOBILE=#{mobile},</if>
+				<if test="email != null">EMAIL=#{email},</if>
+				<if test="salt != null">SALT=#{salt},</if>
+				<if test="pwd != null">PWD=#{pwd},</if>
+				<if test="status != null">STATUS=#{status},</if>
+				<if test="remark != null">REMARK=#{remark},</if>
+				<if test="createdTime != null">CREATED_TIME=#{createdTime},</if>
+				<if test="modifiedTime != null">MODIFIED_TIME=#{modifiedTime},</if>
+				LAST_UPDATE_NO = LAST_UPDATE_NO + 1,
+				<if test="lastUpdateNoUserId != null">LAST_UPDATE_NO_USER_ID=#{lastUpdateNoUserId},</if>
+    	</set>
+    	WHERE ID = #{id}  AND LAST_UPDATE_NO = #{lastUpdateNo}  AND DELETED = 0 
+    </update>
+	
+	<update id="delete">
+		UPDATE  USER_INFO SET DELETED = ID , LAST_UPDATE_NO = LAST_UPDATE_NO + 1  <include refid="whereCondition"/>
+	</update>
+	
+	<update id="deleteByPriKey">
+		UPDATE  USER_INFO SET DELETED = ID , LAST_UPDATE_NO = LAST_UPDATE_NO + 1  WHERE ID = #{id}  AND DELETED = 0 
+	</update>
+	
+	<delete id="deleteActual">
+		DELETE FROM USER_INFO <include refid="whereCondition"/>
+	</delete>
+	
+	<delete id="deleteActualByPriKey">
+		DELETE FROM USER_INFO WHERE ID = #{id}
+	</delete>
+	
+	<delete id="clean">
+		DELETE FROM USER_INFO WHERE ID > #{id} and DELETED != 0 
+	</delete>
+	
+	<select id="selectByPriKey" resultMap="userInfoResultMap">
+		   SELECT   
+		   <include refid="commonSelect" />
+		   FROM   USER_INFO WHERE ID = #id#
+	</select>
+	
+	<select id="selectList" resultMap="userInfoResultMap">
+		   SELECT   
+		   <include refid="commonSelect"/>
+		   FROM   USER_INFO
+		   <include refid="whereCondition"/> 
+		   <if test="columnSort != null">ORDER BY $columnSort$ </if>  
+		   <if test="columnSort == null">ORDER BY ID </if>   
+	</select>
+	
+	<select id="findCount" resultType="long">
+	 	SELECT  COUNT(1) CNT FROM   USER_INFO
+		<include refid="whereCondition"/> 
+	</select>
+	
+	<select id="exist" resultType="long">
+	 	SELECT  ID FROM   USER_INFO
+		<include refid="whereCondition"/> limit 1
+	</select>
+</mapper>
