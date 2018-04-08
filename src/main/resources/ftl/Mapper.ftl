@@ -3,7 +3,7 @@
 <mapper namespace="${mapperPackage}.${StringUtils.camelized(tableName)?cap_first}Mapper">
 	<resultMap id="${StringUtils.camelized(tableName)}ResultMap" type="${domainPackage}.${StringUtils.camelized(tableName)?cap_first}">
   	<#list columns as column>
-  		<result property="${column.propName}" column="${column.name}"<#if column.name == "MOBILE" || column.name == "CERT_NO"> typeHandler="com.nbs.jiaxiao.component.CryptTypeHandler"</#if>/>
+  		<result property="${column.propName}" column="${column.name}"<#if column.name == "MOBILE"> typeHandler="com.nbs.jiaxiao.component.CryptTypeHandler"</#if>/>
   	</#list>
 	</resultMap>
 
@@ -22,7 +22,7 @@
 	 			<if test="param.${column.propName}Start != null"> AND ${column.name} <![CDATA[>=]]> ${"#{"}param.${column.propName}Start} </if> 
 	 			<if test="param.${column.propName}End != null"> AND ${column.name} <![CDATA[<=]]> ${"#{"}param.${column.propName}End} </if>
 	 		<#else>
-	 			<if test="${column.propName} != null"> AND ${column.name} = ${"#{"}${column.propName}<#if column.name == "MOBILE" || column.name == "CERT_NO">, typeHandler=com.nbs.jiaxiao.component.CryptTypeHandler</#if>}</if> 
+	 			<if test="${column.propName} != null"> AND ${column.name} = ${"#{"}${column.propName}<#if column.name == "MOBILE">, typeHandler=com.nbs.jiaxiao.component.CryptTypeHandler</#if>}</if> 
 	 		</#if>
     	</#list>
 	</sql>
@@ -37,7 +37,7 @@
 		VALUES
 		<trim prefix="(" suffixOverrides="," suffix=")">
 		<#list columns as column>
-			<if test="${column.propName} != null">${"#{"}${column.propName}<#if column.name == "MOBILE" || column.name == "CERT_NO">, typeHandler=com.nbs.jiaxiao.component.CryptTypeHandler</#if>},</if> 
+			<if test="${column.propName} != null">${"#{"}${column.propName}<#if column.name == "MOBILE">, typeHandler=com.nbs.jiaxiao.component.CryptTypeHandler</#if>},</if> 
 		</#list>
 		</trim>
 	</insert>
@@ -49,7 +49,7 @@
 			<#if column.name == "LAST_UPDATE_NO">
 				LAST_UPDATE_NO = LAST_UPDATE_NO + 1,
 			<#elseif column.name != "ID">
-				<if test="${column.propName} != null">${column.name}=${"#{"}${column.propName}<#if column.name == "MOBILE" || column.name == "CERT_NO">, typeHandler=com.nbs.jiaxiao.component.CryptTypeHandler</#if>},</if>
+				<if test="${column.propName} != null">${column.name}=${"#{"}${column.propName}<#if column.name == "MOBILE">, typeHandler=com.nbs.jiaxiao.component.CryptTypeHandler</#if>},</if>
 			</#if>
 		 </#list>
     	</set>
