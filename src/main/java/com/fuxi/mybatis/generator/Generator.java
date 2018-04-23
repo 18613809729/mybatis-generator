@@ -156,13 +156,20 @@ public class Generator {
 	
 	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, TemplateNotFoundException, MalformedTemplateNameException, ParseException, TemplateException, IOException {
-		create("pre_seller");
-		create("seller");
-		create("dict");
-		create("fee");
-		create("sign_student");
-		create("student");
-		create("user");
+		//create("pre_seller");
+		//create("seller");
+		//create("dict");
+		//create("fee");
+		//create("sign_student");
+		//create("student");
+		//create("user");
+		//create("commision_fee");
+		//create("commision_account");
+		//create("school");
+		//create("train");
+		create("exam");
+		create("exam_info");
+
 	}
 	
 	

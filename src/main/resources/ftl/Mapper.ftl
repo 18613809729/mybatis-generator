@@ -89,7 +89,7 @@
 		   <include refid="whereCondition"/> 
 		   <if test="param.columnSort != null">ORDER BY ${r"${param.columnSort}"} </if>  
 		   <if test="param.columnSort == null">ORDER BY ID </if>   
-		   <if test="param.limit != null">limit param.offset, param.limit </if>   
+		   <if test="param.limit != null">limit ${r"${param.offset}"}, ${r"${param.limit}"} </if>   
 	</select>
 	
 	<select id="selectCount" resultType="long">
